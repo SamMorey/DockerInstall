@@ -4,7 +4,7 @@ MAINTAINER max@maxmoulds.org
 ######### CONSTANTS ######
 ARG git-repo-name"tutor-js"
 ARG git-repo-url="https://github.com/openstax/tutor-js"
-ARG git-repo-dir="./tutor-js"
+ARG git-repo-dir="/tutor-js"
 ENV variablename="testing a variable that works" 
 
 ### LOGGING ###
@@ -29,12 +29,12 @@ RUN apt-get update && apt-get install -y \
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p $git-repo-dir
-WORKDIR $git-repo-dir
+RUN mkdir -p ${git-repo-dir}
+WORKDIR ${git-repo-dir}
 
-RUN echo "Cloning $git-repo-name from $git-repo-url into $git-repo-dir"
+RUN echo "Cloning ${git-repo-name} from ${git-repo-url} into ${git-repo-dir}"
 # git clone https://github.com/openstax/tutor-js
-RUN if cd $git-repo-dir; then git pull; else git clone $git-repo-url; fi
+RUN if cd ${git-repo-dir}; then git pull; else git clone ${git-repo-url}; fi
 # variable-ize this... 
 
 
