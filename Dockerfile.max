@@ -9,13 +9,23 @@ ARG app_dir="/app"
 ENV variablename="testing a variable that works"
 
 # deshelling 
+
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN which bash
 RUN which sh
 RUN echo "..moving on..."
+
+# one time RUN using bash instead of sh
+RUN ["/bin/bash", "-c", "echo I am now using bash!"]
+RUN ["/bin/bash", "-c", "echo I am now using bash!"] echo "YAY bash - $(which bash)"
+
+#sets it permanently
+SHELL ["/bin/bash", "-c"]
+RUN echo I am now using bash!
+RUN which bash
+RUN echo $0
 # Set debconf to run non-interactively
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-
 
 ### LOGGING ###
 RUN echo 'This is a logging message that is very basic,' $variablename
