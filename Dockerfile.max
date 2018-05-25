@@ -2,14 +2,19 @@ FROM ubuntu:17.10
 MAINTAINER max@maxmoulds.org
 
 ######### CONSTANTS ######
-ARG git-repo-name"tutor-js"
-ARG git-repo-url="https://github.com/openstax/tutor-js"
-ARG git-repo-dir="/tutor-js"
-ENV variablename="testing a variable that works" 
+ARG git_repo_name="tutor-js"
+ARG git_repo_url="https://github.com/openstax/tutor-js"
+ARG git_repo_dir="/tutor-js"
+ARG app_dir="/app"
+ENV variablename="testing a variable that works"
 
 ### LOGGING ###
-RUN echo "This is a logging message that is very basic"
+RUN echo 'This is a logging message that is very basic,' $variablename
+RUN echo 'testing args, ' $git_repo_name
 
+# Comment
+RUN echo 'we are running some # of cool things'
+#
 # Install apt based dependencies required to run Rails as 
 # well as RubyGems. As the Ruby image itself is based on a 
 # Debian image, we use apt-get to install those.
@@ -29,12 +34,14 @@ RUN apt-get update && apt-get install -y \
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p ${git-repo-dir}
-WORKDIR ${git-repo-dir}
+RUN mkdir -p ${git_repo_dir}
+# does workdir specify the location inside the container or outside the container
+# on the system 
+WORKDIR ${git_repo_dir}
 
-RUN echo "Cloning ${git-repo-name} from ${git-repo-url} into ${git-repo-dir}"
+RUN echo 'Cloning '${git_repo_name}' from '${git_repo_url}' into '${git_repo_dir}
 # git clone https://github.com/openstax/tutor-js
-RUN if cd ${git-repo-dir}; then git pull; else git clone ${git-repo-url}; fi
+RUN if cd ${git_repo_dir}; then git pull; else git clone ${git_repo_url}; fi
 # variable-ize this... 
 
 
@@ -44,8 +51,8 @@ RUN if cd ${git-repo-dir}; then git pull; else git clone ${git-repo-url}; fi
 # the RubyGems. This is a separate step so the dependencies 
 # will be cached unless changes to one of those two files 
 # are made.
-RUN cd $git-repo-dir
-RUN echo "should be in $git-repo-dir..."
+RUN cd $git_repo_dir
+RUN echo "should be in $git_repo_dir..."
 RUN echo "trying pwd $(pwd) - and the variable $PWD - is the variable"
 COPY Gemfile Gemfile.lock ./ 
 RUN gem install bundler && bundle install --jobs 20 --retry 5
