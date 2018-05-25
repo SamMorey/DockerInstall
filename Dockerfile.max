@@ -34,14 +34,14 @@ RUN apt-get update && apt-get install -y \
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p ${git_repo_dir}
+RUN mkdir -p $git_repo_dir
 # does workdir specify the location inside the container or outside the container
 # on the system 
-WORKDIR ${git_repo_dir}
+WORKDIR $git_repo_dir
 
-RUN echo 'Cloning '${git_repo_name}' from '${git_repo_url}' into '${git_repo_dir}
+RUN echo 'Cloning '$git_repo_name' from '$git_repo_url' into '$git_repo_dir
 # git clone https://github.com/openstax/tutor-js
-RUN if cd ${git_repo_dir}; then git pull; else git clone ${git_repo_url}; fi
+RUN if [ cd $git_repo_dir ] ; then git pull ; else git clone $git_repo_url ; fi
 # variable-ize this... 
 
 
@@ -52,8 +52,8 @@ RUN if cd ${git_repo_dir}; then git pull; else git clone ${git_repo_url}; fi
 # will be cached unless changes to one of those two files 
 # are made.
 RUN cd $git_repo_dir
-RUN echo "should be in $git_repo_dir..."
-RUN echo "trying pwd $(pwd) - and the variable $PWD - is the variable"
+RUN echo 'should be in '$git_repo_dir'...'
+RUN echo 'trying pwd $(pwd) - and the variable '$PWD' - is the variable'
 COPY Gemfile Gemfile.lock ./ 
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 
