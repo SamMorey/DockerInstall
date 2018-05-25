@@ -64,7 +64,7 @@ WORKDIR $git_repo_dir
 
 RUN echo 'Cloning '$git_repo_name' from '$git_repo_url' into '$git_repo_dir
 # git clone https://github.com/openstax/tutor-js
-RUN bash -c "if cd $git_repo_dir ; then git pull ; else git clone $git_repo_url ; fi"
+RUN if cd $git_repo_name; then git pull; else git clone $git_repo_url; fi
 # variable-ize this... 
 
 
