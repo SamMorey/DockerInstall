@@ -10,7 +10,9 @@ ENV variablename="testing a variable that works"
 
 # deshelling 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
+RUN which bash
+RUN which sh
+RUN echo "..moving on..."
 # Set debconf to run non-interactively
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
@@ -52,7 +54,7 @@ WORKDIR $git_repo_dir
 
 RUN echo 'Cloning '$git_repo_name' from '$git_repo_url' into '$git_repo_dir
 # git clone https://github.com/openstax/tutor-js
-RUN if [ cd $git_repo_dir ] ; then git pull ; else git clone $git_repo_url ; fi
+RUN bash -c "if cd $git_repo_dir ; then git pull ; else git clone $git_repo_url ; fi"
 # variable-ize this... 
 
 
