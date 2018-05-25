@@ -7,6 +7,8 @@ ARG git_repo_url="https://github.com/openstax/tutor-js"
 ARG git_repo_dir="/tutor-js"
 ARG app_dir="/app"
 ENV variablename="testing a variable that works"
+ENV NVM_DIR ~/.nvm
+ENV NODE_VERSION 8.6.0
 
 # deshelling 
 
@@ -52,8 +54,6 @@ RUN apt-get update && apt-get install  -y -q --no-install-recommends \
    && rm -rf /var/lib/apt/lists/*
 
 
-ENV NVM_DIR /usr/local/nvm # or ~/.nvm , depending
-ENV NODE_VERSION 8.6.0
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
