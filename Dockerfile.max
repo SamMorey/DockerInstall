@@ -6,6 +6,7 @@ ARG git_repo_name="tutor-js"
 ARG git_repo_url="https://github.com/openstax/tutor-js"
 ARG git_repo_dir="/tutor-js"
 ARG app_dir="/app"
+ARG boxsand_product="tutor"
 ENV variablename="testing a variable that works"
 ENV NVM_DIR ~/.nvm
 ENV NODE_VERSION 8.6.0
@@ -114,7 +115,9 @@ COPY . ./
 # from the outside.
 EXPOSE 3000
 
+CMD ["npm", "run", "serve", $boxsand_product]
+
 # The main command to run when the container starts. Also 
 # tell the Rails dev server to bind to all interfaces by 
 # default.
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+#CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
