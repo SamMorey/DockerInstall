@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install  -y -q --no-install-recommends \
       ansible npm libxml2-dev libxslt-dev \
       vim python-pip python-dev build-essential memcached screen \
       libxml2-utils nginx postgresql postgresql-client \
-      postgresql-contrib libpq-dev nodejs virtualenv \
+      postgresql-contrib libpq-dev virtualenv \
       git graphviz redis-server qt5-default libqt5webkit5-dev python3 \
       python-pip git git-core curl zlib1g-dev build-essential libssl-dev \
       libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev \
@@ -91,6 +91,7 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.s
 #    && nvm alias default $NODE_VERSION \
 #    && nvm use default \
     && ls -lah \
+    && cd $git_repo_name \
     && npm install
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
@@ -109,7 +110,7 @@ RUN echo "Probably not all done"
 #gem install bundler && bundle install --jobs 20 --retry 5
 
 # Copy the main application.
-COPY . ./
+# COPY . ./
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.
