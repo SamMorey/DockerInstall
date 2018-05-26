@@ -82,12 +82,13 @@ RUN pwd
 RUN cd $git_repo_name
 RUN ls -lah ./$git_repo_name
 
-
+RUN mkdir -p $NVM_DIR
+RUN ls -lah ~/
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default \
+#    && nvm alias default $NODE_VERSION \
+#    && nvm use default \
     && ls -lah \
     && npm install
 
