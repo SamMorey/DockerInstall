@@ -85,7 +85,9 @@ RUN echo 'trying pwd '$(pwd)' - and the variable '$PWD' - is the variable'
 RUN pwd
 RUN cd $git_repo_name
 RUN ls -lah ./$git_repo_name
-
+RUN cd $git_repo_name \
+    && ls -lah \
+    && npm install
 
 
 #RUN mkdir -p $NVM_DIR
@@ -134,7 +136,7 @@ RUN echo "Probably not all done"
 # from the outside.
 EXPOSE 8000
 RUN ls -lah && pwd
-CMD ["npm", "run", "serve", "tutor"]
+# CMD ["npm", "run", "serve", "tutor"]
 
 # The main command to run when the container starts. Also 
 # tell the Rails dev server to bind to all interfaces by 
