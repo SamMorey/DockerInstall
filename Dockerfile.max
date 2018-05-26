@@ -42,7 +42,7 @@ RUN echo 'we are running some # of cool things'
 # Debian image, we use apt-get to install those.
 RUN apt-get update && apt-get install  -y -q --no-install-recommends \ 
 	   postgresql-9.6 postgresql-server-dev-9.6 postgresql-client-9.6 postgresql-contrib-9.6 postgresql-plpython-9.6 \
-      ansible npm libxml2-dev libxslt-dev \
+      ansible libxml2-dev libxslt-dev \
       vim python-pip python-dev build-essential memcached screen \
       libxml2-utils nginx postgresql postgresql-client \
       postgresql-contrib libpq-dev virtualenv \
@@ -54,6 +54,9 @@ RUN apt-get update && apt-get install  -y -q --no-install-recommends \
       gcc-5 htop apt-transport-https ca-certificates wget \
    && rm -rf /var/lib/apt/lists/*
 
+
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs nodejs-legacy
 
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
@@ -83,19 +86,36 @@ RUN pwd
 RUN cd $git_repo_name
 RUN ls -lah ./$git_repo_name
 
-RUN mkdir -p $NVM_DIR
-RUN ls -lah ~/
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
-    && . $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
+
+
+#RUN mkdir -p $NVM_DIR
+#RUN ls -lah ~/
+#RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+#    && . $NVM_DIR/nvm.sh \
+#    && nvm install $NODE_VERSION \
+#    && ln -s /usr/bin/nodejs /usr/bin/node \
+#    && which npm && echo done \
 #    && nvm alias default $NODE_VERSION \
 #    && nvm use default \
-    && ls -lah \
-    && cd $git_repo_name \
-    && npm install
+#    && ls -lah \
+#    && cd $git_repo_name \
+#    && ls -lah \
+#    && npm install 
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
+#ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+#ENV PATH $NVM_DIR/v$NODE_VERSION/bin:$PATH
+#ENV NPM_LOCAL $NVM_DIR/versions/node/v$NODE_VERSION/bin/npm
+# ~/.nvm/versions/node/v8.6.0/bin/npm
+
+#RUN . $NVM_DIR/nvm.sh \
+#    && which npm \
+#    && cd $git_repo_name \
+#    && ls -lah 
+#    && ~/.nvm/versions/node/v8.6.0/bin/npm install 
+
+#RUN echo 'export NVM_DIR="$HOME/.nvm"'                                        >> $HOME/.bashrc
+#RUN echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> $HOME/.bashrc
+#RUN echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> $HOME/.bashrc
 
 #shits broken, or not worth doing in the docker way at this moment. kludging
 #RUN cd $git_repo_name && \
@@ -103,8 +123,6 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 #      nvm install v8.6.0 && \
 #      npm install && \
 #      echo "All done...?"
-
-
 
 RUN echo "Probably not all done"   
 #gem install bundler && bundle install --jobs 20 --retry 5
@@ -114,9 +132,9 @@ RUN echo "Probably not all done"
 
 # Expose port 3000 to the Docker host, so we can access it 
 # from the outside.
-EXPOSE 3000
-
-CMD ["npm", "run", "serve", $boxsand_product]
+EXPOSE 8000
+RUN ls -lah && pwd
+CMD ["npm", "run", "serve", "tutor"]
 
 # The main command to run when the container starts. Also 
 # tell the Rails dev server to bind to all interfaces by 
