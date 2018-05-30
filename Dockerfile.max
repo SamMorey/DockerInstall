@@ -11,6 +11,10 @@ ENV variablename="testing a variable that works"
 ENV NVM_DIR ~/.nvm
 ENV NODE_VERSION 8.6.0
 
+ENV boxsand_js_tutor_www "js-tutor.maxcasts.com"
+ENV boxsand_accounts_www "accounts.maxcasts.com"
+ENV boxsand_js_exercises_www "js-exercises.maxcasts.com"
+
 # deshelling 
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
