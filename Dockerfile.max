@@ -78,7 +78,7 @@ RUN if cd $git_repo_name; then git pull; else git clone $git_repo_url; fi
 # the RubyGems. This is a separate step so the dependencies 
 # will be cached unless changes to one of those two files 
 # are made.
-RUN cd $git_repo_dir
+RUN cd $git_repo_name
 RUN echo 'should be in '$git_repo_dir'...'
 RUN echo 'trying pwd '$(pwd)' - and the variable '$PWD' - is the variable'
 #COPY Gemfile Gemfile.lock ./ 
@@ -100,10 +100,18 @@ RUN echo "Installing CertBot stuff"
 RUN add-apt-repository ppa:certbot/certbot
 RUN apt-get update
 RUN apt-get install -y python-certbot-nginx
-RUN certbot --nginx
+
+############# PROBABLY for the compose part.... ##########
+
+#RUN certbot --staging -n -d js-tutor.maxcasts.com -m boxsand@maxmoulds.org --agree-tos --nginx
 RUN echo "should be done with certbot install, this should not happen often"
 
-#gem install bundler && bundle install --jobs 20 --retry 5
+#RUN cd $git_repo_name
+#RUN ls -lah 
+#RUN npm run serve tutor
+
+############### COMPOSE END
+
 
 # Copy the main application.
 # COPY . ./
