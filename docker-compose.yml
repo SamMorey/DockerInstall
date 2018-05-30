@@ -1,0 +1,5 @@
+version: '2'
+services:
+        tutor-js: 
+                build: ~/DockerInstall/test/.
+
